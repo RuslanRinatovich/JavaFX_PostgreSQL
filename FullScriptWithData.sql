@@ -97,7 +97,12 @@ CREATE TABLE products (
 	manufacturer_id int4 NOT NULL,
 	supplier_id int4 NOT NULL,
 	category_id int4 NOT NULL,
-	photo bytea NULL
+	photo bytea NULL,
+	CONSTRAINT product_pk PRIMARY KEY (product_id),
+	CONSTRAINT product_unittype_fk FOREIGN KEY (unittype_id) REFERENCES unittypes(unittype_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT product_manufacturer_fk FOREIGN KEY (manufacturer_id) REFERENCES manufacturers(manufacturer_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT product_supplier_fk FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT product_category_fk FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 
@@ -168,4 +173,3 @@ INSERT INTO products (product_id,title,"cost",quantity_in_stock,description,unit
 	 ('K753R3','Корректирующая жидкость',50,3,'Корректирующая жидкость (штрих) Attache быстросохнущая 20 мл',1,2,1,1,NULL),
 	 ('Z539E3','Лента клейкая',16,12,'Лента клейкая 12мм*33м прозрачная, Hatber/Хатбер',1,6,2,2,NULL),
 	 ('A567R4','Ручка шариковая',64,30,'Шариковая ручка PILOT SuperGrip 0,7 мм синяя BPGP-10R-F-L',1,1,2,1,NULL);
-
