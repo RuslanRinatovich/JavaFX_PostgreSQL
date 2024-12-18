@@ -1,8 +1,9 @@
 # Создание JavaFX+PostgreSQL приложения
 
 
-[Скрипт базы данных `market`](FullScriptWithData.sql)
+
 1. [Видеоурок 1: Создание БД](https://drive.google.com/file/d/14-NGQ6WPorWh_ekgKYMxOYuBLpejBfe_/view?usp=sharing)
+    [Скрипт базы данных `market`](FullScriptWithData.sql)
 2. [Видеоурок 2: Создание JavaFX приложения и создание login-view](https://drive.google.com/file/d/159GTm3YJtxWxvQBNWMc7HB0FRgJM7zZC/view?usp=sharing)
 
 <details>
@@ -285,6 +286,8 @@ public class MarketApp extends Application {
 
 4. [Видеоурок 4. Подключение к БД. Реализация авторизации в системе](https://drive.google.com/file/d/1tsciv90EkhQs3CUjB1ID6Fi3u7NFMxoW/view?usp=drive_link)
 
+---
+
 <details>
 
 <summary>Программный код</summary>
@@ -292,6 +295,8 @@ public class MarketApp extends Application {
 ## Структура проекта
 
 ![img.png](img.png)
+
+---
 
 ### Файл `hibernate.cfg.xml`
 
@@ -326,8 +331,9 @@ public class MarketApp extends Application {
 ```
 </details>
 
-### Файлы интерфейсов 
+---
 
+### Файлы интерфейсов 
 
 <details>
 
@@ -421,6 +427,8 @@ public class MarketApp extends Application {
 ```
 </details>
 
+---
+
 ### Класс `MarketApp`
 
 <details>
@@ -450,6 +458,8 @@ public class MarketApp extends Application {
 }
 ```
 </details>
+
+---
 
 ### Утилитарные классы в пакете util
 
@@ -604,8 +614,9 @@ public class Manager {
 
 </details>
 
+---
 
-# Пакет model
+### Пакет model
 
 <details>
 
@@ -781,8 +792,9 @@ public class User {
 
 </details>
 
+---
 
-# Пакет repository
+### Пакет repository
 
 <details>
 
@@ -908,8 +920,9 @@ public class UserDao extends BaseDao<User>{
 
 </details>
 
+---
 
-# Пакет controller
+### Пакет controller
 
 <details>
 
