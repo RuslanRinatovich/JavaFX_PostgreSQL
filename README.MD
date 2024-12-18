@@ -1,9 +1,7 @@
 # Создание JavaFX+PostgreSQL приложения
 
-
-
 1. [Видеоурок 1: Создание БД](https://drive.google.com/file/d/14-NGQ6WPorWh_ekgKYMxOYuBLpejBfe_/view?usp=sharing)
-    [Скрипт базы данных `market`](FullScriptWithData.sql)
+   [Скрипт базы данных `market`](FullScriptWithData.sql)
 
 ---
 
@@ -14,6 +12,7 @@
 <summary>Программный код и ресурсы</summary>
 
 `login-view.fxml`
+
 ```fxml
 <?xml version="1.0" encoding="UTF-8"?>
 
@@ -80,7 +79,9 @@
 </AnchorPane>
 
 ```
+
 `LoginController.java`
+
 ```java
 package ru.zelmex.marketapp.controller;
 
@@ -117,6 +118,7 @@ public class LoginController {
 }
 
 ```
+
 </details>
 
 ---
@@ -129,6 +131,7 @@ public class LoginController {
 ![pen.png](VIDEO3/pen.png)
 
 `style.css`
+
 ```css
 .root {
      -fx-main-bg-color: #FFF;
@@ -257,7 +260,9 @@ public class LoginController {
 </AnchorPane>
 
 ```
+
 `MarketApp.java`
+
 ```java
 package ru.zelmex.marketapp;
 
@@ -287,6 +292,7 @@ public class MarketApp extends Application {
     }
 }
 ```
+
 </details>
 
 ---
@@ -302,6 +308,130 @@ public class MarketApp extends Application {
 ![img.png](img.png)
 
 ---
+
+### pom.xml
+
+<details>
+
+<summary>pom.xml</summary>
+
+```xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ru.zelmex</groupId>
+    <artifactId>market-app</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>market-app</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>5.9.2</junit.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.6.3.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>17.0.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>17.0.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>22</source>
+                    <target>22</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <executions>
+                    <execution>
+                        <!-- Default configuration for running with: mvn clean javafx:run -->
+                        <id>default-cli</id>
+                        <configuration>
+                            <mainClass>ru.zelmex.marketapp/ru.zelmex.marketapp.MarketApp</mainClass>
+                            <launcher>app</launcher>
+                            <jlinkZipName>app</jlinkZipName>
+                            <jlinkImageName>app</jlinkImageName>
+                            <noManPages>true</noManPages>
+                            <stripDebug>true</stripDebug>
+                            <noHeaderFiles>true</noHeaderFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
+</details>
+
+### module-info.java
+
+<details>
+
+<summary>module-info.java</summary>
+
+```java
+module ru.zelmex.marketapp {
+    requires javafx.controls;
+    requires javafx.fxml;
+    requires java.base;
+    requires java.naming;
+    requires java.desktop;
+    requires org.postgresql.jdbc;
+    requires org.hibernate.orm.core;
+    requires jakarta.persistence;
+    opens ru.zelmex.marketapp.model to org.hibernate.orm.core, javafx.base;
+    opens ru.zelmex.marketapp to javafx.fxml;
+    exports ru.zelmex.marketapp;
+    exports ru.zelmex.marketapp.controller;
+    opens ru.zelmex.marketapp.controller to javafx.fxml;
+}
+```
+
+</details>
 
 ### Файл `hibernate.cfg.xml`
 
@@ -334,11 +464,12 @@ public class MarketApp extends Application {
 </hibernate-configuration>
 
 ```
+
 </details>
 
 ---
 
-### Файлы интерфейсов 
+### Файлы интерфейсов
 
 <details>
 
@@ -410,6 +541,7 @@ public class MarketApp extends Application {
 </AnchorPane>
 
 ```
+
 </details>
 
 <details>
@@ -430,6 +562,7 @@ public class MarketApp extends Application {
 </AnchorPane>
 
 ```
+
 </details>
 
 ---
@@ -462,6 +595,7 @@ public class MarketApp extends Application {
     }
 }
 ```
+
 </details>
 
 ---
