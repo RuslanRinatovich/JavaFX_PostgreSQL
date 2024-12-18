@@ -283,7 +283,7 @@ public class MarketApp extends Application {
 ```
 </details>
 
-4. [Видеоурок 4. Подключение к БД. Реализация авторизации в системе]
+4. [Видеоурок 4. Подключение к БД. Реализация авторизации в системе](https://drive.google.com/file/d/1tsciv90EkhQs3CUjB1ID6Fi3u7NFMxoW/view?usp=drive_link)
 
 <details>
 
@@ -603,5 +603,407 @@ public class Manager {
 ```
 
 </details>
+
+
+# Пакет model
+
+<details>
+
+<summary>Role</summary>
+
+```java
+package ru.zelmex.marketapp.model;
+
+import jakarta.persistence.*;
+
+import java.util.Objects;
+
+@Entity
+@Table(name = "roles")
+public class Role {
+    @Id
+    @Column(name = "role_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long roleId;
+
+    @Column(name = "title", nullable = false, length = 20)
+    private String title;
+
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Role role = (Role) o;
+        return Objects.equals(roleId, role.roleId) && Objects.equals(title, role.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(roleId, title);
+    }
+
+    @Override
+    public String toString() {
+        return title;
+    }
+}
+
+```
+
+</details>
+
+<details>
+
+<summary>User</summary>
+
+```java
+
+package ru.zelmex.marketapp.model;
+
+
+import jakarta.persistence.*;
+
+import java.util.Objects;
+
+@Entity
+@Table(name = "users")
+public class User {
+
+    @Id
+    @Column(name = "username", length = 50)
+    private String username;
+
+    @Column(name = "first_name", nullable = false, length = 30)
+    private String firstName;
+    @Column(name = "second_name", nullable = false, length = 30)
+    private String secondName;
+    @Column(name = "middle_name", length = 30)
+    private String middleName;
+    @Column(name = "password", nullable = false, length = 50)
+    private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(username, user.username) && Objects.equals(firstName, user.firstName) && Objects.equals(secondName, user.secondName) && Objects.equals(middleName, user.middleName) && Objects.equals(password, user.password) && Objects.equals(role, user.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, password);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
+    }
+}
+
+```
+
+</details>
+
+
+# Пакет repository
+
+<details>
+
+<summary>BaseDao</summary>
+
+```java
+package ru.zelmex.marketapp.repository;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import ru.zelmex.marketapp.util.HibernateSessionFactoryUtil;
+
+import java.util.List;
+
+public abstract class BaseDao<T> {
+
+    private Class<T> tClass;
+
+    public BaseDao(Class<T> tClass) {
+        this.tClass = tClass;
+    }
+
+    protected Session getCurrentSession() {
+        return HibernateSessionFactoryUtil.getSessionFactory().getCurrentSession();
+
+    }
+
+    // добавить
+
+    public void save(final T entity) {
+        Session session = getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        session.persist(entity);
+        tx.commit();
+        session.close();
+    }
+
+    // удаление
+    public void delete(final T entity) {
+        Session session = getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        session.remove(entity);
+        tx.commit();
+        session.close();
+    }
+
+    // удаление по ID
+    public void deleteById(final long entityId) {
+        final T entity = findOne(entityId);
+        delete(entity);
+    }
+
+    // обновить
+    public void update(final T entity) {
+        Session session = getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        session.merge(entity);
+        tx.commit();
+        session.close();
+    }
+    // получить экземепляр класса по ID
+
+    public T findOne(final long entityId) {
+        Session session = getCurrentSession();
+        session.beginTransaction();
+        T item = session.get(tClass, entityId);
+        session.close();
+        return item;
+
+    }
+    // получения всех экземпляров класса из БД
+
+    public List<T> findAll() {
+        Session session = getCurrentSession();
+        session.beginTransaction();
+        List<T> items = (List<T>) session.createQuery("from " + tClass.getName()).list();
+        session.close();
+        return items;
+    }
+}
+
+```
+
+</details>
+
+<details>
+
+<summary>RoleDao</summary>
+
+```java
+package ru.zelmex.marketapp.repository;
+
+import ru.zelmex.marketapp.model.Role;
+
+public class RoleDao extends BaseDao<Role> {
+    public RoleDao() {
+        super(Role.class);
+    }
+}
+
+```
+
+</details>
+
+<details>
+
+<summary>UserDao</summary>
+
+```java
+package ru.zelmex.marketapp.repository;
+
+import ru.zelmex.marketapp.model.User;
+
+public class UserDao extends BaseDao<User>{
+
+    public UserDao()
+    {
+        super(User.class);
+    }
+}
+
+```
+
+</details>
+
+
+# Пакет controller
+
+<details>
+
+<summary>LoginController</summary>
+
+```java
+package ru.zelmex.marketapp.controller;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import ru.zelmex.marketapp.model.User;
+import ru.zelmex.marketapp.repository.UserDao;
+
+import java.util.List;
+import java.util.Optional;
+
+import static ru.zelmex.marketapp.util.Manager.showErrorMessageBox;
+import static ru.zelmex.marketapp.util.Manager.showMainStage;
+
+public class LoginController {
+
+    UserDao userDao = new UserDao();
+
+    @FXML
+    private Button btnCancel;
+
+    @FXML
+    private Button btnOK;
+
+    @FXML
+    private PasswordField passwordField;
+
+    @FXML
+    private TextField textFieldUsername;
+
+    @FXML
+    void btnCancelOnAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btnOkOnAction(ActionEvent event) {
+        List<User> users = userDao.findAll();
+        Optional<User> user = users.stream().filter(user1 -> user1.getUsername().equals(textFieldUsername.getText()) &&
+                user1.getPassword().equals(passwordField.getText())).findFirst();
+
+        if (user.isEmpty()) {
+            showErrorMessageBox("Не верный логин или пароль");
+            return;
+        }
+        showMainStage(user.get());
+    }
+
+}
+
+```
+
+</details>
+
+<details>
+
+<summary>MainController</summary>
+
+```java
+
+package ru.zelmex.marketapp.controller;
+
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import static ru.zelmex.marketapp.util.Manager.currentUser;
+
+public class MainController implements Initializable {
+
+    @FXML
+    private Label labelUser;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        labelUser.setText(currentUser.getFirstName());
+    }
+}
+
+```
+
+</details>
+
+
 
 </details>
