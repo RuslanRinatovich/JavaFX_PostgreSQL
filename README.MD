@@ -324,7 +324,10 @@ public class MarketApp extends Application {
 
 ### Файлы интерфейсов 
 
-#### `login-view.fxml`
+
+<details>
+
+<summary>login-view.fxml</summary>
 
 ```fxml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -392,8 +395,11 @@ public class MarketApp extends Application {
 </AnchorPane>
 
 ```
+</details>
 
-#### `main-view.fxml`
+<details>
+
+<summary>main-view.fxml</summary>
 
 ```fxml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -409,6 +415,8 @@ public class MarketApp extends Application {
 </AnchorPane>
 
 ```
+</details>
+
 ### Класс `MarketApp`
 
 ```java
