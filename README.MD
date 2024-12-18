@@ -11,7 +11,9 @@
 
 <summary>Программный код и ресурсы</summary>
 
-`login-view.fxml`
+<details>
+
+<summary>login-view.fxml</summary>
 
 ```fxml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -80,7 +82,11 @@
 
 ```
 
-`LoginController.java`
+</details>
+
+<details>
+
+<summary> LoginController.java</summary>
 
 ```java
 package ru.zelmex.marketapp.controller;
@@ -118,6 +124,7 @@ public class LoginController {
 }
 
 ```
+</details>
 
 </details>
 
@@ -128,9 +135,15 @@ public class LoginController {
 <details>
 <summary>Программный код и ресурсы</summary>
 
+### картинка для иконки
+
 ![pen.png](VIDEO3/pen.png)
 
-`style.css`
+### style.css
+
+<details>
+
+<summary>style.css</summary>
 
 ```css
 .root {
@@ -192,7 +205,11 @@ public class LoginController {
 
 ```
 
-`login-view.fxml`
+</details>
+
+<details>
+
+<summary>login-view.fxml</summary>
 
 ```fxml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -260,8 +277,11 @@ public class LoginController {
 </AnchorPane>
 
 ```
+</details>
 
-`MarketApp.java`
+<details>
+
+<summary>MarketApp.java</summary>
 
 ```java
 package ru.zelmex.marketapp;
@@ -292,6 +312,8 @@ public class MarketApp extends Application {
     }
 }
 ```
+
+</details>
 
 </details>
 
