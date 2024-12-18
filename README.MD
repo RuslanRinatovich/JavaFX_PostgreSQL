@@ -293,8 +293,11 @@ public class MarketApp extends Application {
 
 ![img.png](img.png)
 
-
 ### Файл `hibernate.cfg.xml`
+
+<details>
+
+<summary>hibernate.cfg.xml</summary>
 
 ```xml
 <?xml version = "1.0" encoding = "utf-8"?>
@@ -321,6 +324,7 @@ public class MarketApp extends Application {
 </hibernate-configuration>
 
 ```
+</details>
 
 ### Файлы интерфейсов 
 
@@ -419,6 +423,10 @@ public class MarketApp extends Application {
 
 ### Класс `MarketApp`
 
+<details>
+
+<summary>MarketApp.java</summary>
+
 ```java
 package ru.zelmex.marketapp;
 
@@ -441,6 +449,6 @@ public class MarketApp extends Application {
     }
 }
 ```
-
+</details>
 
 </details>
