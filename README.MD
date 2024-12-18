@@ -294,7 +294,7 @@ public class MarketApp extends Application {
 ![img.png](img.png)
 
 
-### Файл 'hibernate.cfg.xml'
+### Файл `hibernate.cfg.xml`
 
 ```xml
 <?xml version = "1.0" encoding = "utf-8"?>
@@ -324,7 +324,7 @@ public class MarketApp extends Application {
 
 ### Файлы интерфейсов 
 
-#### 'login-view.fxml'
+#### `login-view.fxml`
 
 ```fxml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -393,7 +393,7 @@ public class MarketApp extends Application {
 
 ```
 
-#### 'main-view.fxml'
+#### `main-view.fxml`
 
 ```fxml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -409,5 +409,30 @@ public class MarketApp extends Application {
 </AnchorPane>
 
 ```
+### Класс `MarketApp`
+
+```java
+package ru.zelmex.marketapp;
+
+import javafx.application.Application;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+
+import static ru.zelmex.marketapp.util.Manager.showStartStage;
+
+public class MarketApp extends Application {
+    @Override
+    public void start(Stage stage) throws IOException {
+
+        showStartStage(stage, "login-view.fxml", "Авторизация");
+    }
+
+    public static void main(String[] args) {
+        launch();
+    }
+}
+```
+
 
 </details>
